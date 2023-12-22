@@ -35,7 +35,7 @@ const Profile = () => {
 
         <div className='posts-container'>
           {userPosts.map((post) => (
-            <Post post={post}/>
+            <Post key={post.id} post={post} />
           ))}
         </div>
       </div>

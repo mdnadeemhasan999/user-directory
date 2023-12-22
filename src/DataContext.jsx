@@ -6,6 +6,7 @@ export const DataProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
   const [postCounts, setPostCounts] = useState({});
+  const [countries, setCountries] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,6 +18,10 @@ export const DataProvider = ({ children }) => {
         const postsResponse = await fetch('https://jsonplaceholder.typicode.com/posts');
         const postsData = await postsResponse.json();
         setPosts(postsData);
+
+        const countryResponse = await fetch('http://worldtimeapi.org/api/timezone');
+        const countryData = await countryResponse.json();
+        setCountries(countryData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -35,7 +40,7 @@ export const DataProvider = ({ children }) => {
   }, [posts]);
 
   return (
-    <DataContext.Provider value={{ users, posts, postCounts }}>
+    <DataContext.Provider value={{ users, posts, postCounts, countries }}>
       {children}
     </DataContext.Provider>
   );
