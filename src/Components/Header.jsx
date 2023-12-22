@@ -4,7 +4,7 @@ import { useData } from '../DataContext';
 
 const Header = () => {
   const { countries } = useData();
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isPaused, setIsPaused] = useState(false);
 
@@ -14,32 +14,31 @@ const Header = () => {
 
   const fetchData = async () => {
     if (selectedCountry) {
-        try {
+      try {
         const response = await fetch(`http://worldtimeapi.org/api/timezone/${selectedCountry}`);
         const data = await response.json();
-        
+
         // Extracting utc_offset from the API response
         const utcOffset = data.utc_offset;
-        
+
         // Converting utc_offset to milliseconds
         const offsetInMillis = parseInt(utcOffset.split(':')[0], 10) * 60 * 60 * 1000 +
-                                parseInt(utcOffset.split(':')[1], 10) * 60 * 1000;
-        
+          parseInt(utcOffset.split(':')[1], 10) * 60 * 1000;
+
         // Adjusting the time
-        const utcTimeInMillis = new Date(data.utc_datetime).getTime();
-        console.log(new Date(utcTimeInMillis))
-        const adjustedTimeInMillis = utcTimeInMillis + offsetInMillis;
+        const date = new Date()
+        const utcTimeInMillis = date.getTime();
+        const adjustedTimeInMillis = utcTimeInMillis + offsetInMillis + date.getTimezoneOffset()*60*1000;
 
         // Setting the adjusted time
         setCurrentTime(new Date(adjustedTimeInMillis));
-        } catch (error) {
+      } catch (error) {
         console.error('Error fetching time data:', error);
-        }
+      }
     } else {
-        console.log("te")
-        setCurrentTime(new Date());
+      setCurrentTime(new Date());
     }
-    };
+  };
 
   const handlePauseClick = () => {
     setIsPaused(!isPaused);
@@ -57,13 +56,14 @@ const Header = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      if (!isPaused) {
-        fetchData();
-      }
+        if (!isPaused) {
+        setCurrentTime(prevTime => new Date(prevTime.getTime() + 1000));
+        }
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [isPaused]);
+    }, [isPaused]);
+
 
   // Assuming you have a function to format the date as a string
   const formatTime = (time) => {
@@ -87,7 +87,7 @@ const Header = () => {
             </option>
           ))}
         </select>
-        <p>Current Time: {formatTime(currentTime)}</p>
+        <p>{formatTime(currentTime)}</p>
         <button className='pause-btn' onClick={handlePauseClick}>
           {isPaused ? 'Start' : 'Pause'}
         </button>
