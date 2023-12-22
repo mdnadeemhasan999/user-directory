@@ -20,16 +20,18 @@ const Profile = () => {
     <>
       <Header />
       <div className='container'>
-        <h1>Profile</h1>
+        <h1 style={{textAlign: 'center',}}>Profile</h1>
 
-        <div className='profile'>
-          <div className='user'>
-            <span>Name</span> <br></br>
-            {user.name}
-          </div>
-          <div className='user'>
-            <span>Address</span> <br></br>
-            {user.email} | {user.phone}
+        <div className='profile-container'>
+          <div className='profile'>
+            <div className='user'>
+              <span>Name</span> <br></br>
+              {user.name}
+            </div>
+            <div className='user'>
+              <span>Address</span> <br></br>
+              {user.email} | {user.phone}
+            </div>
           </div>
         </div>
 

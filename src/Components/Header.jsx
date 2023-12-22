@@ -17,20 +17,12 @@ const Header = () => {
       try {
         const response = await fetch(`http://worldtimeapi.org/api/timezone/${selectedCountry}`);
         const data = await response.json();
-
-        // Extracting utc_offset from the API response
         const utcOffset = data.utc_offset;
-
-        // Converting utc_offset to milliseconds
         const offsetInMillis = parseInt(utcOffset.split(':')[0], 10) * 60 * 60 * 1000 +
           parseInt(utcOffset.split(':')[1], 10) * 60 * 1000;
-
-        // Adjusting the time
         const date = new Date()
         const utcTimeInMillis = date.getTime();
         const adjustedTimeInMillis = utcTimeInMillis + offsetInMillis + date.getTimezoneOffset()*60*1000;
-
-        // Setting the adjusted time
         setCurrentTime(new Date(adjustedTimeInMillis));
       } catch (error) {
         console.error('Error fetching time data:', error);
@@ -64,8 +56,6 @@ const Header = () => {
     return () => clearInterval(intervalId);
     }, [isPaused]);
 
-
-  // Assuming you have a function to format the date as a string
   const formatTime = (time) => {
     return time.toLocaleTimeString();
   };
