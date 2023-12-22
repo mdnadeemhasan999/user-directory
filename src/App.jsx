@@ -1,16 +1,18 @@
-import { useState } from 'react'
-import Profile from './Components/Profile'
-import Home from './Components/Home'
-import './App.css'
+import { useState } from 'react';
+import { DataProvider } from './DataContext';
+
+import Home from './Components/Home';
+import './App.css';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
-    <>
-    <Home />
-    </>
-  )
+    <DataProvider> {/* Wrap your components with DataProvider */}
+        <Home />
+    </DataProvider>
+  );
 }
 
-export default App
+export default App;
