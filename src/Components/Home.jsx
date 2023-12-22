@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useData } from '../DataContext';
 
 const Home = () => {
@@ -15,6 +16,9 @@ const Home = () => {
             </div>
             <div className='user'>
               <span>Post:</span> {postCounts[user.id] || 0}
+            </div>
+            <div className='user'>
+              <Link to={`/profile/${user.id}`}>View Profile</Link>
             </div>
           </div>
         ))}

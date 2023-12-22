@@ -1,16 +1,19 @@
-import { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { DataProvider } from './DataContext';
-
 import Home from './Components/Home';
+import Profile from './Components/Profile';
 import './App.css';
 
-
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <DataProvider> {/* Wrap your components with DataProvider */}
-        <Home />
+    <DataProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile/:userId" element={<Profile />} />
+        </Routes>
+      </Router>
     </DataProvider>
   );
 }
