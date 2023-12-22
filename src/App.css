@@ -98,7 +98,7 @@ body {
   background-color: #CFE2F3;
   color: rgb(0, 0, 0);
   padding: 10px 25px;
-  margin: 0px 25px;
+  margin-left: 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -121,7 +121,43 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
+
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.header > .row {
+  width: 75%;
+  justify-content: space-between;
+}
+.header > .pause {
+  width: 25%;
+  justify-content: space-between;
+}
+
+.time {
+  padding: 10px;
+    background: #0F2128;
+    color: aliceblue;
+    margin: 10px 25px;
+    border-radius: 5px;
+}
 @media only screen and (max-width: 768px) {
+  .header {
+      flex-direction: column;
+  }
+    .header>.row {
+      width: 100%;
+    }
+  
+    .header>.pause {
+      width: 100%;
+    }
   .profile {
     font-size: 20px;
   }
@@ -146,4 +182,3 @@ body {
     font-size: 12px;
   }
 }
-

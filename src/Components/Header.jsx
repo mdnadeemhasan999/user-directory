@@ -57,27 +57,29 @@ const Header = () => {
     }, [isPaused]);
 
   const formatTime = (time) => {
-    return time.toLocaleTimeString();
-  };
+    return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: "2-digit", hour12: false });
+    };
 
   return (
     <div className='header'>
-      <div className='back'>
-        <button className='btn' onClick={handleBackClick}>
-          Back
-        </button>
-      </div>
+        <div className='row'>
+            <div className='back'>
+                <button className='btn' onClick={handleBackClick}>
+                Back
+                </button>
+            </div>
+            <select id="country" value={selectedCountry} onChange={handleCountryChange}>
+            <option value="">Select Country</option>
+            {countries.map((country) => (
+                <option key={country} value={country}>
+                {country}
+                </option>
+            ))}
+            </select>
+        </div>
+      
       <div className='pause'>
-        <label htmlFor="country">Country</label>
-        <select id="country" value={selectedCountry} onChange={handleCountryChange}>
-          <option value="">Select...</option>
-          {countries.map((country) => (
-            <option key={country} value={country}>
-              {country}
-            </option>
-          ))}
-        </select>
-        <p>{formatTime(currentTime)}</p>
+        <p className='time'>{formatTime(currentTime)}</p>
         <button className='pause-btn' onClick={handlePauseClick}>
           {isPaused ? 'Start' : 'Pause'}
         </button>
