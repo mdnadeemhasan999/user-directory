@@ -4,7 +4,7 @@ import { useData } from '../DataContext';
 
 const Header = () => {
   const { countries } = useData();
-  const [selectedCountry, setSelectedCountry] = useState('America/Argentina/Tucuman');
+  const [selectedCountry, setSelectedCountry] = useState('');
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isPaused, setIsPaused] = useState(false);
 
@@ -14,21 +14,32 @@ const Header = () => {
 
   const fetchData = async () => {
     if (selectedCountry) {
-      try {
+        try {
         const response = await fetch(`http://worldtimeapi.org/api/timezone/${selectedCountry}`);
         const data = await response.json();
-        const utcTimeInMillis = new Date(data.utc_datetime).getUTCDate();
-        const offsetInMillis = -3 * 60 * 60 * 1000; // -3 hours in milliseconds
+        
+        // Extracting utc_offset from the API response
+        const utcOffset = data.utc_offset;
+        
+        // Converting utc_offset to milliseconds
+        const offsetInMillis = parseInt(utcOffset.split(':')[0], 10) * 60 * 60 * 1000 +
+                                parseInt(utcOffset.split(':')[1], 10) * 60 * 1000;
+        
+        // Adjusting the time
+        const utcTimeInMillis = new Date(data.utc_datetime).getTime();
+        console.log(new Date(utcTimeInMillis))
         const adjustedTimeInMillis = utcTimeInMillis + offsetInMillis;
-        console.log(adjustedTimeInMillis);
+
+        // Setting the adjusted time
         setCurrentTime(new Date(adjustedTimeInMillis));
-      } catch (error) {
+        } catch (error) {
         console.error('Error fetching time data:', error);
-      }
+        }
     } else {
-      setCurrentTime(new Date());
+        console.log("te")
+        setCurrentTime(new Date());
     }
-  };
+    };
 
   const handlePauseClick = () => {
     setIsPaused(!isPaused);
