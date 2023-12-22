@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useData } from '../DataContext';
-import Post from './Post';
 import Header from './Header';
+import Post from './Post';
 
 const Profile = () => {
   const { userId } = useParams();
-  const { users } = useData();
+  const { users, posts } = useData();
   const user = users.find((user) => user.id === parseInt(userId, 10));
 
   if (!user) {
     return <div>User not found</div>;
   }
+
+  // Filter posts for the specific user
+  const userPosts = posts.filter((post) => post.userId === user.id);
 
   return (
     <>
@@ -29,11 +32,12 @@ const Profile = () => {
             {user.email} | {user.phone}
           </div>
         </div>
-        
+
         <div className='posts-container'>
-          <Post />
+          {userPosts.map((post) => (
+            <Post post={post}/>
+          ))}
         </div>
-        
       </div>
     </>
   );

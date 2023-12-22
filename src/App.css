@@ -86,17 +86,19 @@ body {
 
 .posts-container {
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .post {
-  width: 45%;
   padding: 15px 20px;
   border: 2px solid #000000;
   border-radius: 15px;
   margin: 10px;
   background-color: #CFE2F3;
   display: inline-table;
+  width: calc(26%);
+  margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {
